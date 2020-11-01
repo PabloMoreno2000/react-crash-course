@@ -3,32 +3,24 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./components/layout/Header";
 import AddTodo from "./components/AddTodo";
 import About from "./components/pages/About";
-import { v4 as uuid } from "uuid";
 import "./App.css";
 // Import it and use is a tag <Todos/>
 import Todos from "./components/Todos";
+import axios from "axios";
 
 class App extends Component {
   // State of the class component
   state = {
-    todos: [
-      {
-        id: uuid(),
-        title: "Take out the trash",
-        completed: true,
-      },
-      {
-        id: uuid(),
-        title: "Dinner with friends",
-        completed: false,
-      },
-      {
-        id: uuid(),
-        title: "Meeting with team",
-        completed: false,
-      },
-    ],
+    todos: [],
   };
+
+  // Start when the component is displayed or mounted
+  componentDidMount() {
+    // Get the todos from the API
+    axios
+      .get("https://jsonplaceholder.typicode.com/todos?_limit=10")
+      .then((res) => this.setState({ todos: res.data }));
+  }
 
   // id comes from the .bind() in TodoItem
   markComplete = (id) => {
@@ -45,6 +37,8 @@ class App extends Component {
   // Delete todo
   delTodo = (id) => {
     this.setState({
+      // The spread operator [...] is to make a copy of the array
+      // Since we cannot directly change the state. So we copy it all first
       // Returns todos don't matching the given id
       todos: [...this.state.todos.filter((todo) => todo.id !== id)],
     });
@@ -52,14 +46,15 @@ class App extends Component {
 
   // Add todo
   addTodo = (title) => {
-    // The spread operator [...] is to make a copy of the array
-    // Since we cannot directly change the state. So we copy it all first
-    const newTodo = {
-      id: uuid(),
-      title,
-      completed: false,
-    };
-    this.setState({ todos: [...this.state.todos, newTodo] });
+    // This post() is just to mimic work with backend
+    axios
+      .post("https://jsonplaceholder.typicode.com/todos", {
+        title,
+        completed: false,
+      })
+      .then((res) => {
+        this.setState({ todos: [...this.state.todos, res.data] });
+      });
   };
 
   render() {
