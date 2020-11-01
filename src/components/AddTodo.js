@@ -1,9 +1,28 @@
 import React, { Component } from "react";
 
 export class AddTodo extends Component {
+  state = {
+    title: "",
+  };
+
+  // e.target.name will get the name of the input
+  // that fired this event, for example "title",
+  // and turns that title is a var of the state
+  onChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  onSubmit = (e) => {
+    // Don't make the typicall submit of JS
+    e.preventDefault();
+    this.props.addTodo(this.state.title);
+    // Clean title
+    this.setState({ title: "" });
+  };
+
   render() {
     return (
-      <form style={{ display: "flex" }}>
+      <form onSubmit={this.onSubmit} style={{ display: "flex" }}>
         <input
           type="text"
           name="title"
@@ -12,6 +31,10 @@ export class AddTodo extends Component {
             padding: "5px",
           }}
           placeholder="Add Todo"
+          // The value of the input goes to the onChange function inside the target of the event.
+          // When you set a state var on value, you need the onChange method.
+          value={this.state.title}
+          onChange={this.onChange}
         ></input>
         <input
           type="submit"

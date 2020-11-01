@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Header from "./components/layout/Header";
 import AddTodo from "./components/AddTodo";
+import { v4 as uuid } from "uuid";
 import "./App.css";
 // Import it and use is a tag <Todos/>
 import Todos from "./components/Todos";
@@ -10,17 +11,17 @@ class App extends Component {
   state = {
     todos: [
       {
-        id: 1,
+        id: uuid(),
         title: "Take out the trash",
         completed: true,
       },
       {
-        id: 2,
+        id: uuid(),
         title: "Dinner with friends",
         completed: false,
       },
       {
-        id: 3,
+        id: uuid(),
         title: "Meeting with team",
         completed: false,
       },
@@ -47,12 +48,24 @@ class App extends Component {
     });
   };
 
+  // Add todo
+  addTodo = (title) => {
+    // The spread operator [...] is to make a copy of the array
+    // Since we cannot directly change the state. So we copy it all first
+    const newTodo = {
+      id: uuid(),
+      title,
+      completed: false,
+    };
+    this.setState({ todos: [...this.state.todos, newTodo] });
+  };
+
   render() {
     return (
       <div className="App">
         <div className="container">
           <Header />
-          <AddTodo />
+          <AddTodo addTodo={this.addTodo} />
           {/*The {} takes JS code*/}
           {/*"todos" is justa property we added, we can have several*/}
           {/*probs are accessed on the Component of the tag, not the app component*/}
