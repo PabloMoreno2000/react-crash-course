@@ -36,12 +36,17 @@ class App extends Component {
 
   // Delete todo
   delTodo = (id) => {
-    this.setState({
-      // The spread operator [...] is to make a copy of the array
-      // Since we cannot directly change the state. So we copy it all first
-      // Returns todos don't matching the given id
-      todos: [...this.state.todos.filter((todo) => todo.id !== id)],
-    });
+    axios
+      .delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
+      .then((res) => {
+        this.setState({
+          // The spread operator [...] is to make a copy of the array
+          // Since we cannot directly change the state. So we copy it all first
+          // Returns todos don't matching the given id
+
+          todos: [...this.state.todos.filter((todo) => todo.id !== id)],
+        });
+      });
   };
 
   // Add todo
