@@ -8,10 +8,16 @@ class Todos extends Component {
     }
     console.log(this.props.todos);
     {
-      /*Pass the todo as a prob to the component*/
+      /*Pass the todo as a prob to the component.
+      You can also pass functions in probs*/
     }
     return this.props.todos.map((todo) => (
-      <TodoItem key={todo.id} todo={todo} />
+      <TodoItem
+        key={todo.id}
+        todo={todo}
+        markComplete={this.props.markComplete}
+        delTodo={this.props.delTodo}
+      />
     ));
   }
 }

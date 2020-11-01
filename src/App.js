@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import Header from "./components/layout/Header";
+import AddTodo from "./components/AddTodo";
 import "./App.css";
 // Import it and use is a tag <Todos/>
 import Todos from "./components/Todos";
@@ -25,13 +27,41 @@ class App extends Component {
     ],
   };
 
+  // id comes from the .bind() in TodoItem
+  markComplete = (id) => {
+    this.setState({
+      todos: this.state.todos.map((todo) => {
+        if (todo.id === id) {
+          todo.completed = !todo.completed;
+        }
+        return todo;
+      }),
+    });
+  };
+
+  // Delete todo
+  delTodo = (id) => {
+    this.setState({
+      // Returns todos don't matching the given id
+      todos: [...this.state.todos.filter((todo) => todo.id !== id)],
+    });
+  };
+
   render() {
     return (
       <div className="App">
-        {/*The {} takes JS code*/}
-        {/*"todos" is justa property we added, we can have several*/}
-        {/*probs are accessed on the Component of the tag, not the app component*/}
-        <Todos todos={this.state.todos} />
+        <div className="container">
+          <Header />
+          <AddTodo />
+          {/*The {} takes JS code*/}
+          {/*"todos" is justa property we added, we can have several*/}
+          {/*probs are accessed on the Component of the tag, not the app component*/}
+          <Todos
+            todos={this.state.todos}
+            markComplete={this.markComplete}
+            delTodo={this.delTodo}
+          />
+        </div>
       </div>
     );
   }
