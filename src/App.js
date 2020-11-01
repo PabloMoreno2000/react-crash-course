@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Header from "./components/layout/Header";
 import AddTodo from "./components/AddTodo";
+import About from "./components/pages/About";
 import { v4 as uuid } from "uuid";
 import "./App.css";
 // Import it and use is a tag <Todos/>
@@ -62,20 +64,32 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <div className="container">
-          <Header />
-          <AddTodo addTodo={this.addTodo} />
-          {/*The {} takes JS code*/}
-          {/*"todos" is justa property we added, we can have several*/}
-          {/*probs are accessed on the Component of the tag, not the app component*/}
-          <Todos
-            todos={this.state.todos}
-            markComplete={this.markComplete}
-            delTodo={this.delTodo}
-          />
+      <Router>
+        <div className="App">
+          <div className="container">
+            <Header />
+            {/*Display what's inside the route when the subpath equals path of Route*/}
+            <Route
+              exact
+              path="/"
+              render={(props) => (
+                <React.Fragment>
+                  <AddTodo addTodo={this.addTodo} />
+                  {/*The {} takes JS code*/}
+                  {/*"todos" is justa property we added, we can have several*/}
+                  {/*probs are accessed on the Component of the tag, not the app component*/}
+                  <Todos
+                    todos={this.state.todos}
+                    markComplete={this.markComplete}
+                    delTodo={this.delTodo}
+                  />
+                </React.Fragment>
+              )}
+            />
+            <Route path="/about" component={About} />
+          </div>
         </div>
-      </div>
+      </Router>
     );
   }
 }
