@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+// Import it and use is a tag <Todos/>
+import Todos from "./components/Todos";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  // State of the class component
+  state = {
+    todos: [
+      {
+        id: 1,
+        title: "Take out the trash",
+        completed: false,
+      },
+      {
+        id: 2,
+        title: "Dinner with friends",
+        completed: false,
+      },
+      {
+        id: 3,
+        title: "Meeting with team",
+        completed: false,
+      },
+    ],
+  };
+
+  render() {
+    return (
+      <div className="App">
+        {/*The {} takes JS code*/}
+        {/*"todos" is justa property we added, we can have several*/}
+        {/*probs are accessed on the Component of the tag, not the app component*/}
+        <Todos todos={this.state.todos} />
+      </div>
+    );
+  }
 }
-
 export default App;
